@@ -11,7 +11,7 @@ require("dotenv").config();
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
 // });
-const port = 5000;
+const port = process.env.PORT || 5000;
 const app = express();
 // app.use(cors());
 // app.use(express.json());
@@ -97,7 +97,7 @@ app.get("/", (req, res) => {
 //   });
 // });
 
-app.listen(process.env.PORT || port);
+app.listen(port);
 
 
 // user info
