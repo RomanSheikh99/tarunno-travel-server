@@ -68,11 +68,21 @@ async function run() {
         res.json(result);
       });
 
-      // get place by email
+      // get booklist place 
       app.get('/mybooklist', async (req, res) => {
         const result = await orderList.find({}).toArray();
         res.send(result);
-    })
+      })
+      
+      // DELETE API
+      app.delete('/mybooklist/:id', async (req, res) => {
+        const id = req.params.id;
+        console.log(id);
+        const query = { _id: ObjectId(id) };
+        const result = await orderList.deleteOne(query);
+        console.log(result);
+        res.json(result);
+      });
 
 
     } finally {
