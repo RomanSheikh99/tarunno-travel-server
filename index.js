@@ -21,7 +21,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 
 app.get('/', (req, res) => {
-    res.send('Running Genius Server');
+    res.send('server is on');
 });
 
 
@@ -73,14 +73,32 @@ async function run() {
         const result = await orderList.find({}).toArray();
         res.send(result);
       })
+
+      // updated user
+      app.put('/mybooklist/:id', async (req, res) => {
+        const id = req.params.id;
+        console.log(id);
+        const updatedUser = req.body;
+        console.log(updatedUser);
+        const filter = { _id: ObjectId(id) };
+        console.log('filter kore dimo tumare',filter);
+        const options = {upsert: true};
+        const updateDoc = {
+          $set: {
+            name: updatedUser.name,
+            email: updatedUser.email
+          }
+        };
+        const result = await orderList.updateOne(filter, updateDoc, options)
+        console.log(result);
+        res.send(result);
+      })
       
       // DELETE API
       app.delete('/mybooklist/:id', async (req, res) => {
         const id = req.params.id;
-        console.log(id);
-        const query = { _id: ObjectId(id) };
+        const query = {_id: ObjectId(id)}
         const result = await orderList.deleteOne(query);
-        console.log(result);
         res.json(result);
       });
 
